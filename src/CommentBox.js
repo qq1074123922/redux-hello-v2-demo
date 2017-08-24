@@ -1,26 +1,20 @@
 import React, { Component } from 'react'
 import './comment-box.css'
-
+import store from './redux/store'
+import { connect } from 'react-redux'
  class CommentBox extends Component {
-   state = {
-     comments: [
-       'hello1',
-       'hello2'
-     ]
-   }
+
    handleSubmit = (e) => {
      e.preventDefault()
-     let comments = this.state.comments.slice()
-     let content = this.commentInput.value
-     comments.push(content)
-     this.setState({
-       comments
-     })
+     let comment = this.commentInput.value
+     store.dispatch({ type: 'ADD_COMMENT', comment })
      this.commentInput.value = ''
+     console.log('handleSubmit', store.getState())
    }
 
    render(){
-     let commentList = this.state.comments.slice().reverse().map((item, i) => (
+     console.log("reducer   "+store.getState());
+     let commentList = this.props.comments.slice().reverse().map((item, i) => (
        <li key={i}>{item}</li>
      ))
      let commentForm = (
@@ -41,5 +35,7 @@ import './comment-box.css'
      )
    }
  }
-
-export default CommentBox
+const mapStateToProps = (state) => ({
+  comments: state
+})
+export default connect(mapStateToProps)(CommentBox)
