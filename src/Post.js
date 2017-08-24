@@ -6,7 +6,6 @@ class Post extends Component {
   render(){
     return(
       <div className="Post">
-        Post
         <div className="upper">
           <PostBody />
         </div>
